@@ -105,12 +105,8 @@ class Streams extends Component {
             };
             streamsData.push(streamData);
           }
-
         }
-
-
       }
-
       this.setState({
         loading: false,
         streamsData,
@@ -126,7 +122,13 @@ class Streams extends Component {
   render() {
     return (
       <Card>
-        <Table dataSource={this.state.streamsData} columns={columns} bordered small pagination={false} />
+        <Table
+          dataSource={this.state.streamsData}
+          columns={columns}
+          loading={this.state.loading}
+          bordered
+          small
+          pagination={false} />
       </Card>
     );
   }

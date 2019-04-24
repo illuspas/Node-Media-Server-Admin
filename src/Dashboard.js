@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Card, Row, Col } from 'antd';
-import ReactEcharts from 'echarts-for-react';
 import { bytesToBand } from "./Util";
+import ReactEchartsCore from 'echarts-for-react/lib/core';
+import echarts from 'echarts/lib/echarts';
+import 'echarts/lib/chart/line';
+import 'echarts/lib/component/legend';
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
+
 
 function getOption(name) {
   return {
@@ -251,7 +257,9 @@ class Dashboard extends Component {
       <Row style={{ margin: "0 -12px" }}>
         <Col span={12} style={{ padding: "0 12px" }}>
           <Card>
-            <ReactEcharts ref='echarts_react'
+            <ReactEchartsCore
+              echarts={echarts}
+              ref='echarts_react'
               option={this.state.conOption}
               style={{ height: '348px', width: '100%' }}
             />
@@ -260,7 +268,9 @@ class Dashboard extends Component {
         </Col>
         <Col span={12} style={{ padding: "0 12px" }}>
           <Card>
-            <ReactEcharts ref='echarts_react'
+            <ReactEchartsCore
+              echarts={echarts}
+              ref='echarts_react'
               option={this.state.netOption}
               style={{ height: '348px', width: '100%' }}
             />
@@ -269,7 +279,9 @@ class Dashboard extends Component {
 
         <Col span={12} style={{ padding: "0 12px", marginTop: "16px" }}>
           <Card>
-            <ReactEcharts ref='echarts_react'
+            <ReactEchartsCore
+              echarts={echarts}
+              ref='echarts_react'
               option={this.state.cpuOption}
               style={{ height: '300px', width: '100%' }}
             />
@@ -277,7 +289,9 @@ class Dashboard extends Component {
         </Col>
         <Col span={12} style={{ padding: "0 12px", marginTop: "16px" }}>
           <Card>
-            <ReactEcharts ref='echarts_react'
+            <ReactEchartsCore
+              echarts={echarts}
+              ref='echarts_react'
               option={this.state.memOption}
               style={{ height: '300px', width: '100%' }}
             />
