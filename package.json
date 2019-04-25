@@ -8,11 +8,14 @@
     "customize-cra": "^0.2.12",
     "echarts": "^4.2.1",
     "echarts-for-react": "^2.0.15-beta.0",
+    "flv.js": "^1.5.0",
+    "js-md5": "^0.7.3",
     "react": "^16.8.6",
     "react-app-rewired": "^2.1.2",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.0"
+    "react-scripts": "3.0.0",
+    "universal-cookie": "^3.1.0"
   },
   "scripts": {
     "start": "react-app-rewired start",

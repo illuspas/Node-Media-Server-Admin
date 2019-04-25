@@ -1,74 +1,112 @@
 import React, { Component } from 'react';
-import { Card, Table } from "antd";
+import { Icon, Card, Table, Modal, Input } from "antd";
 import { secondsToDhmsSimple } from "./Util";
-
-const columns = [{
-  title: 'App',
-  dataIndex: 'app',
-  key: 'app',
-}, {
-  title: 'Name',
-  dataIndex: 'name',
-  key: 'name',
-}, {
-  title: 'ID',
-  dataIndex: 'id',
-  key: 'id',
-}, {
-  title: 'IP',
-  dataIndex: 'ip',
-  key: 'ip',
-}, {
-  title: 'Audio',
-  children: [{
-    title: 'codec',
-    dataIndex: 'ac',
-    key: 'ac',
-  }, {
-    title: 'freq',
-    dataIndex: 'freq',
-    key: 'freq',
-  }, {
-    title: 'chan',
-    dataIndex: 'chan',
-    key: 'chan',
-  },
-  ]
-}, {
-  title: 'Video',
-  children: [{
-    title: 'codec',
-    dataIndex: 'vc',
-    key: 'vc',
-  }, {
-    title: 'size',
-    dataIndex: 'size',
-    key: 'size',
-  }, {
-    title: 'fps',
-    dataIndex: 'fps',
-    key: 'fps',
-  },]
-},
-{
-  title: 'Time',
-  dataIndex: 'time',
-  key: 'time',
-}, {
-  title: 'Clients',
-  dataIndex: 'clients',
-  key: 'clients',
-}];
+import Flvplayer from "./Flvplayer";
+import Cookies from 'universal-cookie';
+import md5 from 'js-md5';
 
 class Streams extends Component {
+  cookies = new Cookies();
 
   state = {
     streamsData: [],
     loading: false,
+    visible: false,
+    password: ''
   };
 
+  columns = [{
+    title: 'App',
+    dataIndex: 'app',
+    key: 'app',
+  }, {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    render: (name, record) => {
+      return <a href="##" onClick={() => this.openVideo(record)}>{name}</a>;
+    }
+  }, {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+  }, {
+    title: 'IP',
+    dataIndex: 'ip',
+    key: 'ip',
+  }, {
+    title: 'Audio',
+    children: [{
+      title: 'codec',
+      dataIndex: 'ac',
+      key: 'ac',
+    }, {
+      title: 'freq',
+      dataIndex: 'freq',
+      key: 'freq',
+    }, {
+      title: 'chan',
+      dataIndex: 'chan',
+      key: 'chan',
+    },
+    ]
+  }, {
+    title: 'Video',
+    children: [{
+      title: 'codec',
+      dataIndex: 'vc',
+      key: 'vc',
+    }, {
+      title: 'size',
+      dataIndex: 'size',
+      key: 'size',
+    }, {
+      title: 'fps',
+      dataIndex: 'fps',
+      key: 'fps',
+    },]
+  },
+  {
+    title: 'Time',
+    dataIndex: 'time',
+    key: 'time',
+  }, {
+    title: 'Clients',
+    dataIndex: 'clients',
+    key: 'clients',
+  }];
+
   componentDidMount() {
+    this.setState({
+      password: this.cookies.get('pass')
+    })
     this.fetch();
+  }
+
+  updatePass = (e) => {
+    let password = e.target.value;
+    this.setState({
+      password
+    });
+    this.cookies.set('pass', password, { path: '/', maxAge: 31536000 })
+  }
+
+  openVideo = (record) => {
+    let sign = '';
+    if (this.state.password) {
+      let hash = md5.create();
+      let ext = Date.now() + 30000;
+      hash.update(`/${record.app}/${record.name}-${ext}-${this.state.password}`);
+      let key = hash.hex();
+      sign = `?sign=${ext}-${key}`;
+    }
+    this.videoModal = Modal.info({
+      icon: null,
+      title: "Video Player",
+      width: 640,
+      height: 480,
+      content: <Flvplayer url={`/${record.app}/${record.name}.flv${sign}`} type="flv" />,
+    });
   }
 
   fetch = () => {
@@ -122,13 +160,21 @@ class Streams extends Component {
   render() {
     return (
       <Card>
+        <Input.Password
+          size="large"
+          prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          style={{ marginBottom: "16px" }}
+          placeholder="input password"
+          onChange={this.updatePass}
+          value={this.state.password} />
         <Table
           dataSource={this.state.streamsData}
-          columns={columns}
+          columns={this.columns}
           loading={this.state.loading}
           bordered
           small
-          pagination={false} />
+          pagination={false}
+        />
       </Card>
     );
   }
