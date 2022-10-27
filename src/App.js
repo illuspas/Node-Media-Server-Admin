@@ -29,8 +29,11 @@ class App extends Component {
             title: this.state.collapsed ? this.fullTitle : this.shortTitle,
         });
     }
+    logout = () => {
+        fetch('/logout', {method: 'POST'})
+    }
 
-    componentWillReceiveProps(nextProps, nextContext) {
+    UNSAVE_componentWillReceiveProps(nextProps, nextContext) {
         console.log(nextProps, nextContext);
     }
 
@@ -66,6 +69,10 @@ class App extends Component {
                                     <Icon type="profile" />
                                     <span>Profile</span>
                                 </Link>
+                            </Menu.Item>
+                            <Menu.Item style={{backgroundColor: '#6d76b7'}} key="/logout" onClick={this.logout}>
+                                    <Icon type="logout" />
+                                    <span>logout</span>
                             </Menu.Item>
                         </Menu>
                     </Sider>
