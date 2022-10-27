@@ -92,7 +92,7 @@ class App extends Component {
                             <Route path="/admin/profile" component={Profile} />
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>
-                            Node-Media-Server ©2019 Created by <a href="http://nodemedia.cn" rel="noopener noreferrer" target="_blank">NodeMedia</a>.
+                            Stream-Server
                         </Footer>
                     </Layout>
                 </Layout>
