@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { Icon, Layout, Menu } from 'antd';
 import { createBrowserHistory } from 'history';
-import Dashboard from "./Dashboard";
-import Profile from "./Profile";
-import Streams from "./Streams";
+import Dashboard from "./containers/dashBoard/Dashboard";
+import Profile from "./containers/profile/Profile";
+import Streams from "./containers/streams/Streams";
 
 import "./App.css"
+import { Login } from './containers/login/Login';
 
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -87,6 +88,7 @@ class App extends Component {
                         <Content style={{
                             margin: '24px 16px', minHeight: 280,
                         }}>
+                            <Route exact path="/admin/login" component={Login} />
                             <Route exact path="/admin" component={Dashboard} />
                             <Route path="/admin/streams" component={Streams} />
                             <Route path="/admin/profile" component={Profile} />

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Icon, Card, Table, Modal, Input } from "antd";
-import { secondsToDhmsSimple } from "./Util";
-import Flvplayer from "./Flvplayer";
+import { secondsToDhmsSimple } from "../../utils/Util";
+import Flvplayer from "../../Flvplayer";
 import Cookies from 'universal-cookie';
 import md5 from 'js-md5';
 

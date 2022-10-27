@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Card, Icon, Table } from "antd";
-import { bytesToSize, secondsToDhms } from "./Util";
+import { bytesToSize, secondsToDhms } from "../../utils/Util";
 
 const columns = [{
     dataIndex: 'name',

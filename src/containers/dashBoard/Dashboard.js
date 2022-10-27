@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Row, Col } from 'antd';
-import { bytesToBand } from "./Util";
+import { bytesToBand } from "../../utils/Util";
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
