@@ -111,8 +111,8 @@ class Streams extends Component {
 
   fetch = () => {
     this.setState({ loading: true });
-    fetch('/api/streams', {
-      credentials: 'include'
+    fetch('http://localhost:8000/api/streams', { // for __PROD__ - '/api/streams'
+      // credentials: 'include' // uncomment for __PROD__
     }).then(function (response) {
       return response.json();
     }).then((data) => {

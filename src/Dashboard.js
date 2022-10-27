@@ -190,8 +190,8 @@ class Dashboard extends Component {
   }
 
   fetch = () => {
-    fetch('/api/server', {
-      credentials: 'include'
+    fetch('http://localhost:8000/api/server', { // for __PROD__ - '/api/server'
+      // credentials: 'include' // uncomment for __PROD__
     }).then(function (response) {
       return response.json();
     }).then((data) => {
