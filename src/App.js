@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Redirect } from "react-router-dom";
 import { Icon, Layout, Menu } from 'antd';
 import { createBrowserHistory } from 'history';
 import Dashboard from "./containers/dashBoard/Dashboard";
 import Profile from "./containers/profile/Profile";
 import Streams from "./containers/streams/Streams";
+import { isAuthenticated } from './utils/Util'
 
 import "./App.css"
 import { Login } from './containers/login/Login';
@@ -37,6 +38,16 @@ class App extends Component {
     UNSAVE_componentWillReceiveProps(nextProps, nextContext) {
         console.log(nextProps, nextContext);
     }
+
+    PrivateRoute({ component, ...rest }) {
+        const a = isAuthenticated()
+        return (
+          <Route
+            {...rest}
+            component={() => {return true ? component : <Redirect to={'/admin/login'} />}}
+          />
+        );
+      }
 
     render() {
         return (
@@ -91,7 +102,7 @@ class App extends Component {
                             <Route exact path="/admin/login" component={Login} />
                             <Route exact path="/admin" component={Login} />
                             <Route path="/admin/dashboard" component={Dashboard} />
-                            <Route path="/admin/streams" component={Streams} />
+                            <this.PrivateRoute path="/admin/streams" component={Streams} />
                             <Route path="/admin/profile" component={Profile} />
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>

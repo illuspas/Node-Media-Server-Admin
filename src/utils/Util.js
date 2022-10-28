@@ -40,3 +40,8 @@ export function secondsToDhmsSimple(seconds) {
   let sDisplay = s + "s";
   return dDisplay + hDisplay + mDisplay + sDisplay;
 }
+
+export async function isAuthenticated() {
+  const res = await fetch('http://localhost:8000/auth')
+  return res.status === 401 ? false : true
+}
