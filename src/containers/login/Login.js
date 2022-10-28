@@ -10,14 +10,14 @@ export const Login = () => {
 			message
 			</span>
 		</div>
-		<form action="/login" method="post">
+		<form action="http://localhost:8000/admin/login" method="post">
 			<div className={styles.form}>
 			  	<div className={`${styles.formElements}, ${styles.label}`}>
 					<label for="Username">Username</label>
 				</div>
 				
 				<div className={styles.formElements}>
-					<input type="text" name="Username" placeholder="Username" required/>
+					<input type="text" name="username" placeholder="Username" required/>
 				</div>
 				<div className={`${styles.formElements}, ${styles.label}`}>
 					<label for="password">Password</label>

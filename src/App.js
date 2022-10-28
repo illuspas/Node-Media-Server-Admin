@@ -89,7 +89,8 @@ class App extends Component {
                             margin: '24px 16px', minHeight: 280,
                         }}>
                             <Route exact path="/admin/login" component={Login} />
-                            <Route exact path="/admin" component={Dashboard} />
+                            <Route exact path="/admin" component={Login} />
+                            <Route path="/admin/dashboard" component={Dashboard} />
                             <Route path="/admin/streams" component={Streams} />
                             <Route path="/admin/profile" component={Profile} />
                         </Content>
