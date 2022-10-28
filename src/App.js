@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Link, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Redirect, Switch } from "react-router-dom";
 import { Icon, Layout, Menu } from 'antd';
 import { createBrowserHistory } from 'history';
 import Dashboard from "./containers/dashBoard/Dashboard";
@@ -9,6 +9,7 @@ import { isAuthenticated } from './utils/Util'
 
 import "./App.css"
 import { Login } from './containers/login/Login';
+import { PrivateRoute } from './routers/PrivateRoute';
 
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -32,85 +33,80 @@ class App extends Component {
         });
     }
     logout = () => {
-        fetch('/logout', {method: 'POST'})
+        fetch('/logout', { method: 'POST' })
     }
 
     UNSAVE_componentWillReceiveProps(nextProps, nextContext) {
         console.log(nextProps, nextContext);
     }
 
-    PrivateRoute({ component, path }) {
-        const a = isAuthenticated()
-        return (
-          <Route
-            path={path}
-            component={ a ? component : <Redirect to={'/admin/login'} />}
-          />
-        );
-      }
-
     render() {
         return (
             <Router>
-                <Layout style={{ minHeight: "100vh" }}>
-                    <Sider
-                        width={256}
-                        trigger={null}
-                        collapsible
-                        collapsed={this.state.collapsed}>
+                <Switch>
+                    <Route exact path="/admin/login" component={Login} />
+                    <PrivateRoute path="/admin/">
+                        <Layout style={{ minHeight: "100vh" }}>
+                            <Sider
+                                width={256}
+                                trigger={null}
+                                collapsible
+                                collapsed={this.state.collapsed}>
 
-                        <div className="logo"><h1>{this.state.title}</h1></div>
+                                <div className="logo"><h1>{this.state.title}</h1></div>
 
-                        <Menu theme="dark" mode="inline"
-                            defaultSelectedKeys={[createBrowserHistory().location.pathname]}
-                        >
-                            <Menu.Item key="/admin/">
-                                <Link to="/admin/">
-                                    <Icon type="dashboard" />
-                                    <span>Dashboard</span>
-                                </Link>
-                            </Menu.Item>
-                            <Menu.Item key="/admin/streams">
-                                <Link to="/admin/streams">
-                                    <Icon type="video-camera" />
-                                    <span>Streams</span>
-                                </Link>
-                            </Menu.Item>
-                            <Menu.Item key="/admin/profile">
-                                <Link to="/admin/profile">
-                                    <Icon type="profile" />
-                                    <span>Profile</span>
-                                </Link>
-                            </Menu.Item>
-                            <Menu.Item style={{backgroundColor: '#6d76b7'}} key="/logout" onClick={this.logout}>
-                                    <Icon type="logout" />
-                                    <span>logout</span>
-                            </Menu.Item>
-                        </Menu>
-                    </Sider>
-                    <Layout>
-                        <Header style={{ background: '#fff', padding: 0 }}>
-                            <Icon
-                                className="trigger"
-                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                                onClick={this.toggle}
-                            />
-                        </Header>
-                        <Content style={{
-                            margin: '24px 16px', minHeight: 280,
-                        }}>
-                            <Route exact path="/admin/login" component={Login} />
-                            <Route exact path="/admin" component={Login} />
-                            <Route path="/admin/dashboard" component={Dashboard} />
-                            <this.PrivateRoute path="/admin/streams" component={Streams} />
-                            <Route path="/admin/profile" component={Profile} />
-                        </Content>
-                        <Footer style={{ textAlign: 'center' }}>
-                            Stream-Server
-                        </Footer>
-                    </Layout>
-                </Layout>
+                                <Menu theme="dark" mode="inline"
+                                    defaultSelectedKeys={[createBrowserHistory().location.pathname]}
+                                >
+                                    <Menu.Item key="/admin/">
+                                        <Link to="/admin/">
+                                            <Icon type="dashboard" />
+                                            <span>Dashboard</span>
+                                        </Link>
+                                    </Menu.Item>
+                                    <Menu.Item key="/admin/streams">
+                                        <Link to="/admin/streams">
+                                            <Icon type="video-camera" />
+                                            <span>Streams</span>
+                                        </Link>
+                                    </Menu.Item>
+                                    <Menu.Item key="/admin/profile">
+                                        <Link to="/admin/profile">
+                                            <Icon type="profile" />
+                                            <span>Profile</span>
+                                        </Link>
+                                    </Menu.Item>
+                                    <Menu.Item style={{ backgroundColor: '#6d76b7' }} key="/logout" onClick={this.logout}>
+                                        <Icon type="logout" />
+                                        <span>logout</span>
+                                    </Menu.Item>
+                                </Menu>
+                            </Sider>
+                            <Layout>
+                                <Header style={{ background: '#fff', padding: 0 }}>
+                                    <Icon
+                                        className="trigger"
+                                        type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                        onClick={this.toggle}
+                                    />
+                                </Header>
+                                <Content style={{
+                                    margin: '24px 16px', minHeight: 280,
+                                }}>
+                                    <Switch>
+                                        <Route path="/admin/dashboard" component={Dashboard} />
+                                        <Route path="/admin/streams" component={Streams} />
+                                        <Route path="/admin/profile" component={Profile} />
+                                    </Switch>
+                                </Content>
+                                <Footer style={{ textAlign: 'center' }}>
+                                    Stream-Server
+                                </Footer>
+                            </Layout>
 
+                        </Layout>
+                    </PrivateRoute>
+                </Switch>
 
             </Router>
         );
