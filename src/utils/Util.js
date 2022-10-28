@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 
 export function bytesToSize(bytes) {
   if (bytes === 0) return '0 Byte';
@@ -42,6 +43,10 @@ export function secondsToDhmsSimple(seconds) {
 }
 
 export async function isAuthenticated() {
-  const res = await fetch('http://localhost:8000/auth')
-  return res.status === 401 ? false : true
+  const res = await fetch('http://localhost:8000/auth', {
+    headers: {
+      "Authorization": "Bearer " + Cookies.get('token'),
+    },
+  })
+  return res.status === 200 ? true : false
 }

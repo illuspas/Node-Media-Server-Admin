@@ -39,12 +39,12 @@ class App extends Component {
         console.log(nextProps, nextContext);
     }
 
-    PrivateRoute({ component, ...rest }) {
+    PrivateRoute({ component, path }) {
         const a = isAuthenticated()
         return (
           <Route
-            {...rest}
-            component={() => {return true ? component : <Redirect to={'/admin/login'} />}}
+            path={path}
+            component={ a ? component : <Redirect to={'/admin/login'} />}
           />
         );
       }
