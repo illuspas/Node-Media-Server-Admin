@@ -8,6 +8,8 @@ import "echarts/lib/chart/line";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
+import { API_URL, ENABLE_DEVELOP } from "../../config/env";
+
 
 function getOption(name) {
   return {
@@ -194,10 +196,9 @@ class Dashboard extends Component {
   }
 
   fetch = () => {
-    fetch("http://localhost:8000/api/server", {
+    fetch(API_URL + "/server", {
       headers: {
-        "Authorization": "Bearer " + Cookies.get('token'),
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": "Bearer " + sessionStorage.getItem('token'), // for __DEV__
       },
     })
       .then(function(response) {

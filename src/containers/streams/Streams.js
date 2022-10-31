@@ -4,6 +4,7 @@ import { secondsToDhmsSimple } from "../../utils/Util";
 import Flvplayer from "../../Flvplayer";
 import Cookies from 'universal-cookie';
 import md5 from 'js-md5';
+import { API_URL } from '../../config/env';
 
 class Streams extends Component {
   cookies = new Cookies();
@@ -108,11 +109,13 @@ class Streams extends Component {
       content: <Flvplayer url={`/${record.app}/${record.name}.flv${sign}`} type="flv" />,
     });
   }
-
+  
   fetch = () => {
     this.setState({ loading: true });
-    fetch('http://localhost:8000/api/streams', { // for __PROD__ - '/api/streams'
-      // credentials: 'include' // uncomment for __PROD__
+    fetch(API_URL + "/streams", {
+      headers: {
+        "Authorization": "Bearer " + sessionStorage.getItem('token'), // for __DEV__
+      },
     }).then(function (response) {
       return response.json();
     }).then((data) => {
@@ -160,13 +163,13 @@ class Streams extends Component {
   render() {
     return (
       <Card>
-        <Input.Password
+        {/* <Input.Password
           size="large"
           prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
           style={{ marginBottom: "16px" }}
           placeholder="input password"
           onChange={this.updatePass}
-          value={this.state.password} />
+          value={this.state.password} /> */}
         <Table
           dataSource={this.state.streamsData}
           columns={this.columns}

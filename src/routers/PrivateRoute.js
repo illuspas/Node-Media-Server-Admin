@@ -6,11 +6,14 @@ export const PrivateRoute = ({ children, ...rest }) => {
 
     const [isLogin, setIsLogin] = useState('false');
     useEffect(() => {
+        console.log(process.env.NODE_ENV)
         isAuthenticated().then(res=> {
             setIsLogin(res)
         })
     }, []);
-
+      if(rest.location.pathname === '/admin/'){
+        return <Redirect to='/admin/dashboard'/>;
+      }
       if (isLogin) return <Route {...rest} render={() => children} />;
       return <Redirect to='/admin/login'/>;
     }

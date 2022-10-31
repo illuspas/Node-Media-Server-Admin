@@ -15,6 +15,7 @@ import { PrivateRoute } from './routers/PrivateRoute';
 const { Header, Sider, Content, Footer } = Layout;
 
 class App extends Component {
+    
 
     fullTitle = "NodeMediaServer";
 
@@ -25,7 +26,6 @@ class App extends Component {
         title: this.fullTitle,
         pathname: "/"
     };
-
     toggle = () => {
         this.setState({
             collapsed: !this.state.collapsed,
@@ -33,7 +33,8 @@ class App extends Component {
         });
     }
     logout = () => {
-        fetch('/logout', { method: 'POST' })
+        sessionStorage.clear()
+        return <Redirect to='/admin/login'/>;
     }
 
     UNSAVE_componentWillReceiveProps(nextProps, nextContext) {
@@ -45,7 +46,7 @@ class App extends Component {
             <Router>
                 <Switch>
                     <Route exact path="/admin/login" component={Login} />
-                    <PrivateRoute path="/admin/">
+                    <PrivateRoute path="/admin">
                         <Layout style={{ minHeight: "100vh" }}>
                             <Sider
                                 width={256}
@@ -58,8 +59,8 @@ class App extends Component {
                                 <Menu theme="dark" mode="inline"
                                     defaultSelectedKeys={[createBrowserHistory().location.pathname]}
                                 >
-                                    <Menu.Item key="/admin/">
-                                        <Link to="/admin/">
+                                    <Menu.Item key="/admin/dashboard">
+                                        <Link to="/admin/dashboard">
                                             <Icon type="dashboard" />
                                             <span>Dashboard</span>
                                         </Link>
@@ -77,8 +78,10 @@ class App extends Component {
                                         </Link>
                                     </Menu.Item>
                                     <Menu.Item style={{ backgroundColor: '#6d76b7' }} key="/logout" onClick={this.logout}>
-                                        <Icon type="logout" />
-                                        <span>logout</span>
+                                        <Link to="/admin/login">
+                                            <Icon type="logout" />
+                                            <span>logout</span>
+                                        </Link>
                                     </Menu.Item>
                                 </Menu>
                             </Sider>

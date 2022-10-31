@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { AUTH_URL } from '../config/env';
 
 export function bytesToSize(bytes) {
   if (bytes === 0) return '0 Byte';
@@ -43,10 +44,11 @@ export function secondsToDhmsSimple(seconds) {
 }
 
 export async function isAuthenticated() {
-  const res = await fetch('http://localhost:8000/auth', {
+  const res = await fetch(AUTH_URL, {
     headers: {
-      "Authorization": "Bearer " + Cookies.get('token'),
+      "Authorization": "Bearer " + sessionStorage.getItem("token")
     },
   })
+  console.log('isAuth', res)
   return res.status === 200 ? true : false
 }

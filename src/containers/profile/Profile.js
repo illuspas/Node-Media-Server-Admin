@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Card, Icon, Table } from "antd";
 import { bytesToSize, secondsToDhms } from "../../utils/Util";
+import { API_URL } from '../../config/env';
 
 const columns = [{
     dataIndex: 'name',
@@ -24,8 +25,10 @@ class Profile extends Component {
 
     fetch = () => {
         this.setState({ loading: true });
-        fetch('/api/server', {
-            credentials: 'include'
+        fetch(API_URL + "/server", {
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem('token'),
+              },
         }).then(function (response) {
             return response.json();
         }).then((data) => {
