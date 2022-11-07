@@ -10,6 +10,7 @@ import { isAuthenticated } from './utils/Util'
 import "./App.css"
 import { Login } from './containers/login/Login';
 import { PrivateRoute } from './routers/PrivateRoute';
+import { LOGOUT_URL } from './config/env';
 
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -33,8 +34,8 @@ class App extends Component {
         });
     }
     logout = () => {
+        fetch(LOGOUT_URL, {method: 'POST'})
         sessionStorage.clear()
-        return <Redirect to='/admin/login'/>;
     }
 
     UNSAVE_componentWillReceiveProps(nextProps, nextContext) {

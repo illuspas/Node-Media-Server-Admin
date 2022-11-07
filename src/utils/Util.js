@@ -49,6 +49,5 @@ export async function isAuthenticated() {
       "Authorization": "Bearer " + sessionStorage.getItem("token")
     },
   })
-  console.log('isAuth', res)
   return res.status === 200 ? true : false
 }
